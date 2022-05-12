@@ -1,6 +1,22 @@
-# Getting Started with Create React App
+# Doctors Portal Client
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Used  Dependencies
+
+### Daisyui 
+    yarn add daisyui
+
+### react-day-picker
+
+    yarn add react-day-picker
+
+### firebase
+
+### react-router-dom
+
+### react-toastify
+
 
 ## Available Scripts
 
