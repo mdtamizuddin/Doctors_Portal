@@ -1,0 +1,16 @@
+header img {
+    width: 600px;
+
+}
+
+header {
+    height: 80vh !important;
+}
+
+
+@media only screen and (max-width: 1000px) {
+    .hidden-image {
+        display: none !important;
+    }
+    
+}
