@@ -15,6 +15,7 @@ export const Navbar = () => {
             // An error happened.
         });
     }
+
     return (
         <div className=''>
             <div className="navbar container mx-auto">
@@ -27,7 +28,9 @@ export const Navbar = () => {
                             {
                                 navs.map(navbars => <li key={navbars}><Link className='nav-links' to={navbars}>{navbars}</Link></li>)
                             }
-
+                           {
+                               user.email && <li><NavLink className='nav-links mr-5' to='/dashboard'>Dashboard</NavLink></li>
+                           }
                         </ul>
                     </div>
                     <Link to='/' className="btn btn-ghost normal-case text-3xl">Doctors Portal</Link>
@@ -39,7 +42,9 @@ export const Navbar = () => {
                             {
                                 navs.map(navbars => <li key={navbars}><NavLink className='nav-links mr-5' to={navbars}>{navbars}</NavLink></li>)
                             }
-
+                            {
+                               user.email && <li><NavLink className='nav-links mr-5' to='/dashboard'>Dashboard</NavLink></li>
+                           }
                         </ul>
                     </div>
 

@@ -1,6 +1,8 @@
 import { format } from 'date-fns';
 import React, { useEffect, useState } from 'react'
+import { useQuery , refetch } from 'react-query';
 import Footer from '../../Footer/Footer';
+import Loading from '../../Loading/Loading';
 import ApModal from './ApModal';
 import AppintMentCard from './AppintMentCard';
 import Banner from './Banner'
@@ -9,12 +11,27 @@ const Appoinment = () => {
     const [date, setDate] = useState(new Date());
     const [services , setService] = useState([])
     const [treatMent , setTereatMent] = useState(null)
-    useEffect(() => {
-       fetch('http://localhost:5000/services')
-       .then(res => res.json())
-       .then(json => setService(json))
-    }, [])
+    const fromatedDate = format(date , 'PP')
+    
+    // useEffect(() => {
+    //    fetch()
+    //    .then(res => res.json())
+    //    .then(json => setService(json))
+    // }, [fromatedDate])
 
+    const url = `http://localhost:5000/available?date=${fromatedDate}`
+
+    const { isLoading,  data } = useQuery(['Available' , fromatedDate , services], () =>
+    fetch(url).then(res =>
+        res.json()
+    )
+)
+
+if (isLoading) {
+    return (
+        <Loading />
+    )
+}
   return (
     <div >
         <Banner date={date} setDate={setDate}/>
@@ -23,7 +40,7 @@ const Appoinment = () => {
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-center  gap-10 mt-20'>
                 
                 {
-                    services.map(service => <AppintMentCard 
+                    data.map(service => <AppintMentCard 
                     key={service._id}
                     setTereatMent={setTereatMent}
                     service={service}
@@ -35,7 +52,7 @@ const Appoinment = () => {
                treatMent ? <ApModal treatMent={treatMent}/>  : console.log('nai') 
             } */}
 
-            <ApModal treatMent={treatMent}/> 
+            <ApModal setService={setService} date={date} treatMent={treatMent}/> 
             
             
         </section>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import Social from './Social'
 import { signInWithEmailAndPassword } from "firebase/auth";
 import auth from '../../Firebase/firebase.init';
@@ -17,8 +17,13 @@ const Login = () => {
     }
 
     const navigate = useNavigate()
-    const [error , setError] = useState('')
-    const [success , setSuccess] = useState('')
+    const [error, setError] = useState('')
+    const [success, setSuccess] = useState('')
+    const location = useLocation()
+    const fromLoca = location.state?.from?.pathname
+
+    // console.log(fromLoca)
+    console.log(fromLoca)
     const loginWithGmailPassword = (e) => {
         e.preventDefault()
         const email = e.target.email.value
@@ -30,18 +35,18 @@ const Login = () => {
                 // Signed in 
                 const user = userCredential.user;
                 setSuccess(user.email + " " + "Loged In")
-                navigate('/')
+                navigate(fromLoca || '/')
             })
             .catch((error) => {
                 const errorCode = error.code;
-                
+
                 if (errorCode === "auth/user-not-found") {
                     setError("User Not Found Try With Right Email Password")
                 }
-                else if (errorCode === "auth/wrong-password"){
+                else if (errorCode === "auth/wrong-password") {
                     setError("Wrong Password or Email")
                 }
-                
+
             });
     }
 
@@ -56,6 +61,7 @@ const Login = () => {
                     <input autoComplete='off' type="password" name='password' placeholder="Password" className="input input-bordered w-full max-w-lg mt-5" />
 
                     <p className='text-red-500 mt-5'>{error}</p>
+                     <p className='text-green-500 mt-5'>{success}</p>
                     <input type="submit" value='Login' className='btn btn-accent mt-5 w-full' />
                 </form>
                 <button className='ml-5  mt-5 text-primary'>Forget Password ?</button>

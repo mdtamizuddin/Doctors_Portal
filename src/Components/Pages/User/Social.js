@@ -1,19 +1,20 @@
 import React from 'react'
 import auth from '../../Firebase/firebase.init'
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const Social = () => {
     const navigate = useNavigate()
     const provider = new GoogleAuthProvider();
+    const location = useLocation()
+    const fromLoca = location.state?.from?.pathname
     const LoginGoogle = () => {
         signInWithPopup(auth, provider)
             .then((result) => {
                 // This gives you a Google Access Token. You can use it to access the Google API.
                 // const credential = GoogleAuthProvider.credentialFromResult(result);
-             
-                const user = result.user;
-                navigate('/')
+            
+                navigate(fromLoca || '/')
             }).catch((error) => {
                 // Handle Errors here.
                 const errorCode = error.code;
