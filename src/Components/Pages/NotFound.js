@@ -9,7 +9,7 @@ const NotFound = () => {
     }
   return (
     <div  className='flex justify-center items-center '>
-        <Link to={'#'} >
+        <Link to='/' >
         <img style={style} className='' src={notFound} alt="" />
         </Link>
     </div>

@@ -21,11 +21,11 @@ const ApModal = ({ treatMent , date , setService }) => {
 
       
 
-        axios.post('http://localhost:5000/appointment', {
+        axios.post('https://mysterious-dusk-87796.herokuapp.com/appointment', {
             treatment , slot , date , name , number , email
           })
           .then((response) => {
-            console.log(response.data);
+            // console.log(response.data);
             if(response.data.success){
                 setService(response)
                 toast.success(`Appointment Added On ${slot} in ${date}`)
@@ -34,7 +34,7 @@ const ApModal = ({ treatMent , date , setService }) => {
                 setError('You Have Another Appointment On that Time And That Day Select Another Hourse')
             }
           }, (error) => {
-            console.log(error);
+            // console.log(error);
           });
 
     }

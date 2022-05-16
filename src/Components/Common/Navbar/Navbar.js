@@ -1,21 +1,28 @@
 import React from 'react'
-import { Link, NavLink } from 'react-router-dom'
-import useUser from '../../Firebase/useUser'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { useAuthState } from 'react-firebase-hooks/auth';
 import './Navbar.css'
 import { signOut } from "firebase/auth";
 import auth from '../../Firebase/firebase.init';
-
+import Loading from '../../Loading/Loading'
+import userQ from '../../assets/icons/user-q.jpg'
 export const Navbar = () => {
     const navs = ["home", "about", "appointment", "reviews", "contact"]
-    const user = useUser()
+    const [user, loading] = useAuthState(auth);
+    const navigate = useNavigate()
     function logoutUser() {
         signOut(auth).then(() => {
-            window.location.reload()
+            navigate('/')
+            
         }).catch((error) => {
             // An error happened.
         });
-    }
 
+        localStorage.setItem('accessToken' , '')
+    }
+    if (loading) {
+        return <Loading />
+    }
     return (
         <div className=''>
             <div className="navbar container mx-auto">
@@ -29,7 +36,7 @@ export const Navbar = () => {
                                 navs.map(navbars => <li key={navbars}><Link className='nav-links' to={navbars}>{navbars}</Link></li>)
                             }
                            {
-                               user.email && <li><NavLink className='nav-links mr-5' to='/dashboard'>Dashboard</NavLink></li>
+                               user && <li><NavLink className='nav-links mr-5' to='/dashboard'>Dashboard</NavLink></li>
                            }
                         </ul>
                     </div>
@@ -43,7 +50,7 @@ export const Navbar = () => {
                                 navs.map(navbars => <li key={navbars}><NavLink className='nav-links mr-5' to={navbars}>{navbars}</NavLink></li>)
                             }
                             {
-                               user.email && <li><NavLink className='nav-links mr-5' to='/dashboard'>Dashboard</NavLink></li>
+                               user && <li><NavLink className='nav-links mr-5' to='/dashboard'>Dashboard</NavLink></li>
                            }
                         </ul>
                     </div>
@@ -53,8 +60,8 @@ export const Navbar = () => {
                         <label tabIndex="0" className="btn btn-ghost btn-circle avatar">
                             <div className="w-14 rounded-full">
                                 {
-                                    !user.uid ?
-                                        <img alt='/' src="https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg" />
+                                    !user ?
+                                        <img alt='user' src={userQ} />
                                         :
                                         <img src={user.photoURL ? user.photoURL : "https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg"} alt="dfd" />
                                 }
@@ -69,7 +76,7 @@ export const Navbar = () => {
                             </li>
                             <li><Link to='#'>Settings</Link></li>
                             {
-                                user.email ?
+                                user ?
                                     <li><button onClick={logoutUser}>LogOut</button></li>
                                     :
                                     <li><Link to='/login'>Login</Link></li>

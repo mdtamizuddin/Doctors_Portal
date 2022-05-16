@@ -1,35 +1,23 @@
-import axios from 'axios';
+import axios from 'axios'
 import React, { useState, Fragment, useRef } from 'react'
-import { useAuthState } from 'react-firebase-hooks/auth';
+import { useAuthState } from 'react-firebase-hooks/auth'
 import { useQuery } from 'react-query'
-import auth from '../../Firebase/firebase.init';
-import Loading from '../../Loading/Loading'
+import auth from '../../Firebase/firebase.init'
 
 import { Dialog, Transition } from '@headlessui/react'
 import { ExclamationIcon } from '@heroicons/react/outline'
+import { toast } from 'react-toastify'
 
-const ManageAppointment = () => {
-    const [user, loading] = useAuthState(auth);
+const AllApointment = () => {
+    const [user] = useAuthState(auth)
     const [open, setOpen] = useState(false)
     const [delId, setDelld] = useState()
-    const url = `https://mysterious-dusk-87796.herokuapp.com/appointment?email=${user.email}`;
-    const { isLoading, data } = useQuery(['repoData', delId], () =>
-        axios({
-            method: 'get',
-            url: url,
-            headers : {
-                'auth' : localStorage.getItem('accessToken')
-            }
-        })
-        .then(res => res.data)
-      
-    )
-    //
     const DeletAppointMent = () => {
         axios.delete(`https://mysterious-dusk-87796.herokuapp.com/appointment/${delId}`)
             .then(res => {
                 // console.log(res.data)
                 setDelld('')
+                toast.success('Apointment Deleted success')
             })
 
     }
@@ -37,50 +25,69 @@ const ManageAppointment = () => {
         setOpen(true)
         setDelld(id)
     }
-    if (isLoading || loading) {
+
+    const url = `https://mysterious-dusk-87796.herokuapp.com/all-appointment?email=${user?.email}`;
+    const { isLoading, data } = useQuery(['repoData' , delId], () =>
+        axios({
+            method: 'get',
+            url: url,
+            headers: {
+                'auth': localStorage.getItem('accessToken')
+            }
+        })
+            .then(res => res.data)
+
+    )
+    // console.log("daa", data)
+    if (isLoading) {
         return (
-            <Loading />
+            <h1>Loading ... </h1>
         )
     }
-
     return (
         <div>
-            <div className="overflow-x-auto">
-                <table className="table-compact w-full">
-                    {/* head */}
-                    <thead>
-                        <tr>
-                            <th className='border' />
-                            <th className='border'>Name</th>
-                            <th className='border'>Date</th>
-                            <th className='border'>Time</th>
-                            <th className='border'>Treatment</th>
-                            <th className='border'>Delet</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {/* row 1 */}
-                        {
-                            data.map((appoint, index) => <tr key={appoint._id}>
-                                <th>{index + 1}</th>
-                                <td>{appoint.name}</td>
-                                <td>{appoint.date}</td>
-                                <td>{appoint.slot}</td>
-                                <td>{appoint.treatment}</td>
-                                <td><button onClick={() => openModal(appoint._id)} className='btn btn-secondary text-accent'>Delet</button></td>
-                            </tr>)
-                        }
+            <h1 className='text-center text-4xl font-bold text-secondary my-5'>All Apoinemtnt</h1>
+            <h1 className='text-center text-2xl font-bold text-secondary my-5'>Total Apoinemtnt : {data.length}</h1>
+            <table className="table-compact w-full">
+                {/* head */}
+                <thead>
+                    <tr>
+                        <th className='border' />
+                        <th className='border'>Name</th>
+                        <th className='border'>Date</th>
+                        <th className='border'>Time</th>
+                        <th className='border'>Treatment</th>
+                        <th className='border'>Delet</th>
+                        <th className='border'>Mark Appointed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {/* row 1 */}
+                    {
+                        data.map((appoint, index) => <tr key={appoint._id}>
+                            <th>{index + 1}</th>
+                            <td>{appoint.name}</td>
+                            <td>{appoint.date}</td>
+                            <td>{appoint.slot}</td>
+                            <td>{appoint.treatment}</td>
+                            <td><button onClick={() => openModal(appoint._id)} className='btn btn-secondary w-full text-accent'>Delet</button></td>
+                            <td>
+                                <button className='btn btn-primary w-full bg-green-500'>
+                                    Mark Appointed
+                                </button>
+                            </td>
+                        </tr>)
+                    }
 
 
-                    </tbody>
-                </table>
-            </div>
+                </tbody>
+            </table>
             <Modal open={open} setOpen={setOpen} DeletAppointMent={DeletAppointMent} />
         </div>
     )
 }
 
-export default ManageAppointment
+export default AllApointment
 
 
 const Modal = ({ open, setOpen, DeletAppointMent }) => {

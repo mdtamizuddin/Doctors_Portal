@@ -23,7 +23,7 @@ const Login = () => {
     const fromLoca = location.state?.from?.pathname
 
     // console.log(fromLoca)
-    console.log(fromLoca)
+
     const loginWithGmailPassword = (e) => {
         e.preventDefault()
         const email = e.target.email.value
@@ -34,7 +34,7 @@ const Login = () => {
             .then((userCredential) => {
                 // Signed in 
                 const user = userCredential.user;
-                setSuccess(user.email + " " + "Loged In")
+                setSuccess(`${user.email} Loged In`)
                 navigate(fromLoca || '/')
             })
             .catch((error) => {

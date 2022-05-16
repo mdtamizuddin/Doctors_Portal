@@ -28,7 +28,7 @@ const Footer = () => {
                     </div>
                 </section>
             </main>
-            <p className="text-center mt-10 ">
+            <p className="text-center mt-10 mb-5">
             Copyright 2022 All Rights Reserved
             </p>
         </footer>

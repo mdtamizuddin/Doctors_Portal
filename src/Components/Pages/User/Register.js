@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Social from './Social'
 import { createUserWithEmailAndPassword, sendEmailVerification, updateProfile } from "firebase/auth";
 import auth from '../../Firebase/firebase.init';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
 
 
 const Register = () => {
@@ -22,7 +23,7 @@ const Register = () => {
     // Create User With Email Password 
     const [error, setError] = useState()
     const [success, setSuccess] = useState()
-    const navigate = useNavigate()
+
 
     const register = (e) => {
         e.preventDefault()
@@ -37,13 +38,14 @@ const Register = () => {
                 emailVarify()
                 // navigate('/')
                 updateName(name)
-                setSuccess(user.email + " " + "Registerd")
+                setSuccess(`${user.email} Registerd`)
                 setError('')
+                createUserDb(user.email)
                 e.target.reset()
             })
             .catch((error) => {
                 const errorCode = error.code;
-                console.log(errorCode)
+                // console.log(errorCode)
                 setSuccess("")
                 if (errorCode === "auth/email-already-in-use") {
                     setError("Email Alrady In Use Plz Login")
@@ -72,17 +74,24 @@ const Register = () => {
             // ...
         });
     }
+    const createUserDb = (user) =>{
+        const url = `https://mysterious-dusk-87796.herokuapp.com/user/${user}`
+        axios.put(url, {
+           user
+        })
+        .then(res => console.log(res))
+    }
     return (
         <div style={style}>
             <div style={formStyle}>
                 <h1 className='text-4xl text-center mb-14'>Register</h1>
                 <form onSubmit={register} style={formStyle} className='mx-auto mt-10 w-full px-3  lg:w-4/12'>
 
-                    <input autoComplete='off' type="text" name='name' placeholder="Your Name" className="input input-bordered w-full mb-5 max-w-lg" />
+                    <input autoComplete='off' type="text" name='name' placeholder="Your Name" className="input input-bordered w-full mb-5 max-w-lg" required/>
 
-                    <input autoComplete='off' type="email" name='email' placeholder="Email Adress" className="input input-bordered w-full max-w-lg" />
+                    <input autoComplete='off' type="email" name='email' placeholder="Email Adress" className="input input-bordered w-full max-w-lg" required/>
 
-                    <input autoComplete='off' type="password" name='password' placeholder="Password" className="input input-bordered w-full max-w-lg mt-5" />
+                    <input autoComplete='off' type="password" name='password' placeholder="Password" className="input input-bordered w-full max-w-lg mt-5" required/>
 
                     <p className='text-red-500 mt-5'>{error}</p>
                     <p className='text-green-500 mt-5'>{success}</p>
