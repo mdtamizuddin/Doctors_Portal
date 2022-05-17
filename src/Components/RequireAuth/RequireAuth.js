@@ -55,7 +55,7 @@ const VerifyEmail = () => {
                     <div className="card-actions">
                         <a href='https://mail.google.com/mail/u/0/#inbox' target={'_blank'} rel="noreferrer" className="btn btn-success">Check Inbox</a>
                     </div>
-                    <div class="divider">OR</div>
+                    <div className="divider">OR</div>
                     <div className="card-actions">
                         <button className="btn btn-primary"
                             onClick={async () => {

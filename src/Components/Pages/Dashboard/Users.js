@@ -9,7 +9,7 @@ const Users = () => {
     const [delOpt, setDel] = useState()
 
 
-    const { isLoading, data } = useQuery(['repoData', delOpt], () =>
+    const { isLoading, data } = useQuery(['getUsers', delOpt], () =>
         axios('https://mysterious-dusk-87796.herokuapp.com/user', {
             method: "get",
             headers: {
@@ -71,7 +71,7 @@ const Users = () => {
                 <tbody>
                     {/* row 1 */}
                     {
-                        data.map(users => {
+                        data?.map(users => {
                             
                             if (users.role !== "admin") {
                                 return (
@@ -91,7 +91,7 @@ const Users = () => {
                                         </td>
                                         <td>
                                             <button className='btn btn-error w-full text-white'>
-                                                Delete
+                                                Remove
                                             </button>
                                         </td>
                                     </tr>

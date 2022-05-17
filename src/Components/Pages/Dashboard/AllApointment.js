@@ -1,17 +1,19 @@
 import axios from 'axios'
-import React, { useState, Fragment, useRef } from 'react'
+import React, { useState, Fragment, useRef, useEffect } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { useQuery } from 'react-query'
+// import { useQuery } from 'react-query'
 import auth from '../../Firebase/firebase.init'
 
 import { Dialog, Transition } from '@headlessui/react'
 import { ExclamationIcon } from '@heroicons/react/outline'
 import { toast } from 'react-toastify'
+// import Loading from '../../Loading/Loading'
 
 const AllApointment = () => {
     const [user] = useAuthState(auth)
     const [open, setOpen] = useState(false)
     const [delId, setDelld] = useState()
+    const [data,setdata ] = useState([])
     const DeletAppointMent = () => {
         axios.delete(`https://mysterious-dusk-87796.herokuapp.com/appointment/${delId}`)
             .then(res => {
@@ -26,8 +28,9 @@ const AllApointment = () => {
         setDelld(id)
     }
 
-    const url = `https://mysterious-dusk-87796.herokuapp.com/all-appointment?email=${user?.email}`;
-    const { isLoading, data } = useQuery(['repoData' , delId], () =>
+    const url = `https://mysterious-dusk-87796.herokuapp.com/all-appointment?email=${user.email}`;
+
+    useEffect(() => {
         axios({
             method: 'get',
             url: url,
@@ -35,25 +38,21 @@ const AllApointment = () => {
                 'auth': localStorage.getItem('accessToken')
             }
         })
-            .then(res => res.data)
+            .then(res => setdata(res.data))
+    }, [user])
 
-    )
     // console.log("daa", data)
-    if (isLoading) {
-        return (
-            <h1>Loading ... </h1>
-        )
-    }
+  
     return (
         <div>
             <h1 className='text-center text-4xl font-bold text-secondary my-5'>All Apoinemtnt</h1>
-            <h1 className='text-center text-2xl font-bold text-secondary my-5'>Total Apoinemtnt : {data.length}</h1>
+            <h1 className='text-center text-2xl font-bold text-secondary my-5'>Total Apoinemtnt : {data?.length}</h1>
             <table className="table-compact w-full">
                 {/* head */}
                 <thead>
                     <tr>
                         <th className='border' />
-                        <th className='border'>Name</th>
+                        <th className='border'>Email</th>
                         <th className='border'>Date</th>
                         <th className='border'>Time</th>
                         <th className='border'>Treatment</th>
@@ -66,7 +65,7 @@ const AllApointment = () => {
                     {
                         data.map((appoint, index) => <tr key={appoint._id}>
                             <th>{index + 1}</th>
-                            <td>{appoint.name}</td>
+                            <td>{appoint.email}</td>
                             <td>{appoint.date}</td>
                             <td>{appoint.slot}</td>
                             <td>{appoint.treatment}</td>

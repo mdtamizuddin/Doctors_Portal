@@ -9,7 +9,7 @@ import Loading from '../../Loading/Loading'
 const Admins = () => {
     const [delOpt, setDel] = useState()
 
-    const { isLoading, data } = useQuery(['repoData', delOpt], () =>
+    const { isLoading, data } = useQuery(['getUsers', delOpt], () =>
         axios('https://mysterious-dusk-87796.herokuapp.com/user', {
             method: "get",
             headers: {
@@ -41,7 +41,7 @@ const Admins = () => {
                 setDel(data)
                 if (data.modifiedCount > 0) {
 
-                    toast.success(`Successfully made an admin`);
+                    toast.success(`Removed from admin`);
                 }
 
             })
@@ -72,7 +72,7 @@ const Admins = () => {
                 <tbody>
                     {/* row 1 */}
                     {
-                        data.map((users, index) => {
+                        data?.map((users, index) => {
                             if (users.role === "admin") {
                                 return (
                                     <tr key={users._id}>

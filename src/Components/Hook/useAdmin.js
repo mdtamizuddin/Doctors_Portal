@@ -5,7 +5,7 @@ import Loading from '../Loading/Loading'
 
 const useAdmin = () => {
 
-    const { isLoading, data , refetch  } = useQuery('repoData' , () =>
+    const { isLoading, data , refetch  } = useQuery('admins' , () =>
         axios('https://mysterious-dusk-87796.herokuapp.com/admins', {
             method: "get",
             headers: {

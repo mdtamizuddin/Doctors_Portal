@@ -10,6 +10,7 @@ import Contact from './Components/Contact/Contact';
 import auth from './Components/Firebase/firebase.init';
 import Footer from './Components/Footer/Footer';
 import useUser from './Components/Hook/useUser';
+import Loading from './Components/Loading/Loading';
 
 import Appoinment from './Components/Pages/Apointment/Appoinment';
 import Admins from './Components/Pages/Dashboard/Admins';
@@ -27,10 +28,10 @@ import RequireAuth from './Components/RequireAuth/RequireAuth';
 
 function App() {
 
-  const [user] = useAuthState(auth)
-  const { currentUser } = useUser()
+  const [user , loading] = useAuthState(auth)
+  const { currentUser , isLoading } = useUser()
   useEffect(() => {
-    if (user?.email) {
+    if (user) {
       const url = `https://mysterious-dusk-87796.herokuapp.com/user/${user.email}`
       axios.put(url, {
         user
@@ -41,7 +42,9 @@ function App() {
         })
     }
   }, [user])
-
+  if(loading || isLoading){
+    return <Loading />
+  }
   return (
     <div className="App">
       <ToastContainer />

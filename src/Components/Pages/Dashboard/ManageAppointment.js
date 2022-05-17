@@ -13,7 +13,7 @@ const ManageAppointment = () => {
     const [open, setOpen] = useState(false)
     const [delId, setDelld] = useState()
     const url = `https://mysterious-dusk-87796.herokuapp.com/appointment?email=${user.email}`;
-    const { isLoading, data } = useQuery(['repoData', delId], () =>
+    const { isLoading, data } = useQuery(['apointment', delId], () =>
         axios({
             method: 'get',
             url: url,
@@ -61,7 +61,7 @@ const ManageAppointment = () => {
                     <tbody>
                         {/* row 1 */}
                         {
-                            data.map((appoint, index) => <tr key={appoint._id}>
+                            data?.map((appoint, index) => <tr key={appoint._id}>
                                 <th>{index + 1}</th>
                                 <td>{appoint.name}</td>
                                 <td>{appoint.date}</td>
