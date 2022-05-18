@@ -25,7 +25,7 @@ const Contact = () => {
         const subject = e.target.subject.value;
         const message = e.target.message.value ;
         if (user) {
-            fetch('http://localhost:5000/send-contact-message', {
+            fetch('https://mysterious-dusk-87796.herokuapp.com/send-contact-message', {
                 method: 'post',
                 headers: {
                     'content-type': 'application/json',

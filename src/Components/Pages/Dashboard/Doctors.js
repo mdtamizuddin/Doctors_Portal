@@ -6,7 +6,7 @@ import Loading from '../../Loading/Loading'
 
 const Doctors = () => {
     const { isLoading, data, refetch } = useQuery(['get-Doctor'], () =>
-        axios('http://localhost:5000/doctors', {
+        axios('https://mysterious-dusk-87796.herokuapp.com/doctors', {
             method: "get",
             headers: {
                 auth: localStorage.getItem('accessToken')
@@ -17,7 +17,7 @@ const Doctors = () => {
             })
     )
     function deletDoctor(id, name) {
-        axios(`http://localhost:5000/doctor/${id}`, {
+        axios(`https://mysterious-dusk-87796.herokuapp.com/doctor/${id}`, {
             method: "delete",
             headers: {
                 auth: localStorage.getItem('accessToken')

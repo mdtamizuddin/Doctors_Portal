@@ -23,7 +23,7 @@ const ApModal = ({ treatMent , date , setService }) => {
 
       
 
-        axios.post('http://localhost:5000/apointment', {
+        axios.post('https://mysterious-dusk-87796.herokuapp.com/apointment', {
             treatment , slot , date , name , number , email , paid , price
           })
           .then((response) => {

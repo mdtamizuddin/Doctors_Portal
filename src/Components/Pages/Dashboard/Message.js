@@ -20,7 +20,7 @@ const Message = () => {
             setPath('messages')
         }
     }, [currentUser])
-    const URL = `http://localhost:5000/${pathName}?email=${user.email}`
+    const URL = `https://mysterious-dusk-87796.herokuapp.com/${pathName}?email=${user.email}`
 
     const { isLoading, refetch } = useQuery(['Messages', pathName, currentUser], () => {
         if (currentUser) {
@@ -38,7 +38,7 @@ const Message = () => {
     }
     )
     const deletMessage = (id) => {
-        axios(`http://localhost:5000/messages/${id}`, {
+        axios(`https://mysterious-dusk-87796.herokuapp.com/messages/${id}`, {
             method: "delete",
             headers: {
                 auth: localStorage.getItem('accessToken')
