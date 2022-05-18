@@ -18,11 +18,13 @@ const ApModal = ({ treatMent , date , setService }) => {
         const email = e.target.email.value 
         const slot = e.target.slot.value 
         const date = e.target.date.value 
+        const paid = false
+        const price = treatMent.price
 
       
 
-        axios.post('https://mysterious-dusk-87796.herokuapp.com/appointment', {
-            treatment , slot , date , name , number , email
+        axios.post('http://localhost:5000/apointment', {
+            treatment , slot , date , name , number , email , paid , price
           })
           .then((response) => {
             // console.log(response.data);

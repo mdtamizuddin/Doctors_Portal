@@ -4,3 +4,17 @@
    display: none;
  }
 }
+
+.my-modal{
+  width: 100%;
+  height: 90vh;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: linear-gradient(from right , red , black );
+  
+}
+.btn-close{
+  position: absolute
+}

@@ -1,6 +1,7 @@
 [
     {
         "name": "Treeth Orthodontics",
+        "price" : 120,
         "slot": [
             "08.00 - 09.00 am",
             "09.00 - 10.00 am",
@@ -18,6 +19,7 @@
     },
     {
         "name": "Cosmetic Dentistry",
+        "price" : 90,
         "slot": [
             "08.00 - 09.00 am",
             "09.00 - 10.00 am",
@@ -35,6 +37,7 @@
     {
         
         "name": "Teeth Cleaning",
+        "price" : 150,
         "slot": [
             "08.00 - 09.00 am",
             "09.00 - 10.00 am",
@@ -51,6 +54,7 @@
     },
     {
         "name": "Cavity Protection",
+        "price" : 20,
         "slot": [
             "08.00 - 09.00 am",
             "09.00 - 10.00 am",
@@ -67,6 +71,7 @@
     },
     {
         "name": "Pediatric Debtal",
+        "price" : 150,
         "slot": [
             "08.00 - 09.00 am",
             "09.00 - 10.00 am",
@@ -83,6 +88,7 @@
     },
     {
         "name": "Oral Surgery",
+        "price" : 220,
         "slot": [
             "08.00 - 09.00 am",
             "09.00 - 10.00 am",

@@ -1,7 +1,7 @@
-import axios from 'axios'
+
 import React, { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { useQuery } from 'react-query'
+
 import auth from '../Firebase/firebase.init'
 import Loading from '../Loading/Loading'
 

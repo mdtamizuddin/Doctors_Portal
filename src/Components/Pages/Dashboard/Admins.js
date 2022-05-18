@@ -63,7 +63,7 @@ const Admins = () => {
 
                         <th className='border'>Email</th>
                         <th></th>
-                        
+
                         <th className='border'>Delete</th>
                     </tr>
                 </thead>
@@ -72,7 +72,7 @@ const Admins = () => {
                 <tbody>
                     {/* row 1 */}
                     {
-                        data?.map((users, index) => {
+                        data?.map(users => {
                             if (users.role === "admin") {
                                 return (
                                     <tr key={users._id}>
@@ -83,7 +83,7 @@ const Admins = () => {
                                         <td>
 
                                         </td>
-                                        
+
                                         <td> <button disabled={users.email === "mdtomiz.official@gmail.com"} onClick={() => {
                                             removeAdmin(users.email)
                                         }} className='btn btn-secondary w-full'>Remove</button></td>

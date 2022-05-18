@@ -1,52 +1,118 @@
 import axios from 'axios'
-import React, { useState, Fragment, useRef, useEffect } from 'react'
+import React, { useState, Fragment, useRef } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-// import { useQuery } from 'react-query'
 import auth from '../../Firebase/firebase.init'
-
 import { Dialog, Transition } from '@headlessui/react'
 import { ExclamationIcon } from '@heroicons/react/outline'
 import { toast } from 'react-toastify'
-// import Loading from '../../Loading/Loading'
+import Loading from '../../Loading/Loading'
+import { useQuery } from 'react-query'
+
 
 const AllApointment = () => {
     const [user] = useAuthState(auth)
     const [open, setOpen] = useState(false)
     const [delId, setDelld] = useState()
-    const [data,setdata ] = useState([])
+    const [apointment, setApointment] = useState([])
     const DeletAppointMent = () => {
         axios.delete(`https://mysterious-dusk-87796.herokuapp.com/appointment/${delId}`)
             .then(res => {
-                // console.log(res.data)
-                setDelld('')
+                refetch()
                 toast.success('Apointment Deleted success')
+               
             })
-
     }
     const openModal = (id) => {
         setOpen(true)
         setDelld(id)
     }
-
     const url = `https://mysterious-dusk-87796.herokuapp.com/all-appointment?email=${user.email}`;
 
-    useEffect(() => {
-        axios({
-            method: 'get',
-            url: url,
+    const { isLoading, data, refetch } = useQuery(['get-all-appointment'], () =>
+        axios(url, {
+            method: "get",
             headers: {
-                'auth': localStorage.getItem('accessToken')
+                auth: localStorage.getItem('accessToken')
             }
         })
-            .then(res => setdata(res.data))
-    }, [user])
+            .then(res => {
 
-    // console.log("daa", data)
-  
+                return res.data
+            })
+    )
+    // Url For Get A sIngle user appoinement
+
+
+
+    const getApoinement = (e) => {
+        const URL = `https://mysterious-dusk-87796.herokuapp.com/appointment-one?email=${e.target.value}`;
+
+        axios(URL, {
+            method: "get",
+            headers: {
+                auth: localStorage.getItem('accessToken')
+            }
+        })
+            .then(res => {
+                setApointment(res.data)
+        })
+    }
+
+    if (isLoading) {
+        return <Loading />
+    }
+
     return (
         <div>
-            <h1 className='text-center text-4xl font-bold text-secondary my-5'>All Apoinemtnt</h1>
+           
+            
             <h1 className='text-center text-2xl font-bold text-secondary my-5'>Total Apoinemtnt : {data?.length}</h1>
+            <div className='flex justify-center my-5'>
+                <input onBlur={getApoinement} type="email" placeholder="Search here" className="input rounded-none input-bordered  w-full max-w-xs" />
+                <button className='btn rounded-none text-white btn-secondary'>Search</button>
+            </div>
+            {
+            apointment.length > 0 &&
+                <div>
+                    <button className='btn btn-sm text-white bg-red-400 mx-auto block my-3' onClick={()=> setApointment([])}>Clear Result</button>
+                    <h1 className='text-center text-2xl mb-2'>Result : {apointment.length}</h1>
+                    <table className="table-compact w-full bg-black">
+                {/* head */}
+                <thead>
+                    <tr>
+                        <th className='border text-white' />
+                        <th className='border text-white'>Email</th>
+                        <th className='border text-white'>Date</th>
+                        <th className='border text-white'>Time</th>
+                        <th className='border text-white'>Treatment</th>
+                        <th className='border text-white'>Delet</th>
+                        <th className='border text-white'>Mark Appointed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                   
+                    {
+                        apointment.map((appoint, index) => <tr key={appoint._id}>
+                            <th className='text-white'>{index + 1}</th>
+                            <td className='text-white'>{appoint.email}</td>
+                            <td className='text-white'>{appoint.date}</td>
+                            <td className='text-white'>{appoint.slot}</td>
+                            <td className='text-white'>{appoint.treatment}</td>
+                            <td className='text-white'><button onClick={() => openModal(appoint._id)} className='btn btn-secondary w-full text-accent'>Delet</button></td>
+                            <td>
+                                <button className='btn btn-primary w-full bg-primary'>
+                                    Mark Appointed
+                                </button>
+                            </td>
+                        </tr>)
+                    }
+
+
+                </tbody>
+            </table>
+                </div>
+            }
+            <h1 className='text-center text-4xl font-bold text-secondary my-5'>All Apoinemtnt</h1>
             <table className="table-compact w-full">
                 {/* head */}
                 <thead>

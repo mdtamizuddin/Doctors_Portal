@@ -34,11 +34,14 @@ const Dashboard = () => {
                         <li><Link to='reviews'>Reviews</Link></li> */}
                         {
                             currentUser?.role === 'admin' &&
-
+                            <>
                             <li><Link to='users'>Users</Link></li>
-
+                            
+                            <li><Link to='add-doctor'>Add Doctor</Link></li>
+                            <li><Link to='doctors'>Doctors</Link></li>
+                            </>
                         }
-
+                        <li><Link to='message'>Messages</Link></li>
                     </ul>
                 </div>
             </div>

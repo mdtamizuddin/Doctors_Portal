@@ -1,6 +1,6 @@
 
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
@@ -13,11 +13,14 @@ import useUser from './Components/Hook/useUser';
 import Loading from './Components/Loading/Loading';
 
 import Appoinment from './Components/Pages/Apointment/Appoinment';
+import AddDoctor from './Components/Pages/Dashboard/AddDoctor';
 import Admins from './Components/Pages/Dashboard/Admins';
 import AllApointment from './Components/Pages/Dashboard/AllApointment';
 import AllUsers from './Components/Pages/Dashboard/AllUsers';
 import Dashboard from './Components/Pages/Dashboard/Dashboard';
+import Doctors from './Components/Pages/Dashboard/Doctors';
 import ManageAppointment from './Components/Pages/Dashboard/ManageAppointment';
+import Message from './Components/Pages/Dashboard/Message';
 import Users from './Components/Pages/Dashboard/Users';
 import Home from './Components/Pages/Home/Home';
 import NotFound from './Components/Pages/NotFound';
@@ -72,14 +75,15 @@ function App() {
             :
             <ManageAppointment />
           } />
+          <Route path='add-doctor' element={<AddDoctor />} />
+          <Route path='message' element={<Message />} />
           <Route path='appointments' element={currentUser?.role === 'admin'
             ?
             <AllApointment />
-           
             :
-            
             <ManageAppointment />
             } />
+            <Route path='doctors' element={<Doctors />}/>
           {
             currentUser?.role === 'admin' &&
             <Route path='users' element={<AllUsers />} >

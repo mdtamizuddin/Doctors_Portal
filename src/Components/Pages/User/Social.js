@@ -2,7 +2,6 @@ import React from 'react'
 import auth from '../../Firebase/firebase.init'
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useLocation, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 
 const Social = () => {
     const navigate = useNavigate()
